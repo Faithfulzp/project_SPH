@@ -22,6 +22,11 @@ requests.interceptors.request.use((config) => {
         // 请求头添加字段，携带给后台，该字段和后台商量好
         config.headers.userTempId = store.state.detail.uuid_token;
     }
+    // 请求头携带厂库中的token
+    if (store.state.user.token) {
+        // 请求头添加字段，携带给后台，该字段和后台商量好
+        config.headers.token = store.state.user.token;
+    }
     //进度条结束
     nprogress.start();
     // config:配置对象，对象里有headers请求头

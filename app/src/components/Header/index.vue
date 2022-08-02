@@ -6,10 +6,14 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!userInfo.name">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link class="register" to="/register">免费注册</router-link>
+          </p>
+          <p v-else>
+            <a>{{ userInfo.name }}</a>
+            <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -53,6 +57,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "",
   data() {
@@ -89,6 +94,21 @@ export default {
         this.$router.push(location);
       }
     },
+    // 退出登录
+    async logout(){
+      try{
+        // 发送退出登录请求，会把服务器里的token等数据删除
+        await this.$store.dispatch("user/userLogout");
+        // 并以游客身份跳转到主页
+        this.$router.push("/home");
+      }catch(error){
+        alert(error.message);
+      }
+    }
+  },
+  computed: {
+    // 获取用户信息
+    ...mapState("user", ["userInfo"]),
   },
 };
 </script>

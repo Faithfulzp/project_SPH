@@ -34,6 +34,8 @@ export default {
   mounted() {
     //请求floor数据，如果放在floor中，多个楼层会多次请求数据
     this.$store.dispatch("home/getFloorList");
+    // 成功登录 home路由组件挂起之后发送请求调取用户信息,但是要在header组件调用
+    this.$store.dispatch("user/getUserInfo");
   },
   computed: {
     ...mapState("home", ["floorList"]),

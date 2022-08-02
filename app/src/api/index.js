@@ -35,6 +35,14 @@ export const reqCheckCart = (skuId, isChecked) => requests({ url: `/cart/checkCa
 export const reqGetCode = (phone) => requests({ url: `/user/passport/sendCode/${phone}`, method: "GET" });
 // 完成注册，发送数据 /api/user/passport/register POST ,data:电话号，密码，验证码
 export const reqUserRegister = (data) => requests({ url: "/user/passport/register", method: "POST", data });
+// 登录业务，发送数据 /api/user/passport/login POST ,data:电话号，密码
+export const reqUserLogin = (data) => requests({ url: "/user/passport/login", method: "POST", data });
+// 登录之后获取用户信息【需要在请求拦截器中带着token向服务器要数据】/api/user/passport/auth/getUserInfo GET
+export const reqGetUserInfo = () => requests({ url: "/user/passport/auth/getUserInfo", method: "GET" });
+// 退出登录接口 /api/user/passport/logout get
+export const reqLogout = () => requests({ url: "/user/passport/logout", method: "GET" });
+
+
 
 
 
