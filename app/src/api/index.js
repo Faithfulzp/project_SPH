@@ -31,3 +31,13 @@ export const reqCartList = (skuId) => requests({ url: "/cart/cartList", method: 
 export const reqDeleteCart = (skuId) => requests({ url: `/cart/deleteCart/${skuId}`, method: "DELETE" });
 // 切换商品选中状态 /api/cart/checkCart/{skuID}/{isChecked}
 export const reqCheckCart = (skuId, isChecked) => requests({ url: `/cart/checkCart/${skuId}/${isChecked}`, method: "GET" });
+// 获得注册验证码 /api/user/passport/sendCode/{phone}
+export const reqGetCode = (phone) => requests({ url: `/user/passport/sendCode/${phone}`, method: "GET" });
+// 完成注册，发送数据 /api/user/passport/register POST ,data:电话号，密码，验证码
+export const reqUserRegister = (data) => requests({ url: "/user/passport/register", method: "POST", data });
+
+
+
+
+
+

@@ -40,6 +40,7 @@ export default [
     },
     {
         path: '/login',
+        name: 'login',
         component: Login,
         meta: { showFooter: false }
     },
