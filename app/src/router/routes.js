@@ -6,9 +6,16 @@ import Search from '@/pages/Search';
 import Detail from '@/pages/Detail';
 import AddCartSuccess from '@/pages/AddCartSuccess';
 import ShopCart from '@/pages/ShopCart';
+import Trade from '@/pages/Trade';
 //创建一个路由实例
 //配置路由,向外暴露路由数组
 export default [
+    {
+        path: '/trade',
+        name: 'trade',
+        component: Trade,
+        meta: { showFooter: true }
+    },
     {
         path: '/shopcart',
         name: 'shopcart',
