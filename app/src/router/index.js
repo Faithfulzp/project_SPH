@@ -2,6 +2,7 @@
 import Vue from "vue";
 import VueRouter from 'vue-router';
 import routes from "./routes";
+import store from "@/store";
 //使用插件
 Vue.use(VueRouter);
 
@@ -31,7 +32,7 @@ VueRouter.prototype.replace = function (location, resolve, reject) {
 
 //创建一个路由实例
 //配置路由
-export default new VueRouter({
+let router = new VueRouter({
     routes,
     // 滚动行为，当路由跳转之后页面所在位置
     scrollBehavior(to, from, savedPosition) {
@@ -39,3 +40,49 @@ export default new VueRouter({
         return { y: 0 }
     },
 })
+// 全局路由前置守卫
+router.beforeEach(async (to, from, next) => {
+    /* 
+    to:目标路由地址
+    from:当前路由地址
+    next:放行,next()放行，next(path)放行到指定路由
+    */
+    // 获取token
+    let token = store.state.user.token;
+    // 获取用户名信息
+    let name = store.state.user.userInfo.name;
+    // 判断token是否存在
+    // 因为登录之后token会被存入本地存储，所以登录后再刷新网页还是会进入判断
+    if (token) {
+        // 如果登录了还去登录界面，会被跳回首页
+        if (to.path == "/login") {
+            next("/home");
+        } else {
+            // 如果不去登录页，用户名存在则正常放行
+            if (name) {
+                next();
+            } else {
+                // 因为用户名没有在本地存放用户名，所以刷新网页仓库用户名会消失
+                // 其实也可以想token一样存放到本地就不用担心刷新用户名会消失了
+                try {
+                    // 重新获取用户名后再放行，切左上角用户名存在
+                    await store.dispatch("user/getUserInfo");
+                    next();
+                } catch (error) {
+                    // 如果请求失败，可能是token过期了，需要重新登录，重新获取token
+                    alert(error.message);
+                    // token过期需要清空数据，重新登录
+                    await store.dispatch("user/userLogout");
+                    next("/login");
+                }
+            }
+        }
+    } else {
+        // 如果一开始就没有登录，则以游客身份，都可放行
+        next();
+    }
+})
+
+
+// 向外暴露路由
+export default router;
