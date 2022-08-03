@@ -7,9 +7,16 @@ import Detail from '@/pages/Detail';
 import AddCartSuccess from '@/pages/AddCartSuccess';
 import ShopCart from '@/pages/ShopCart';
 import Trade from '@/pages/Trade';
+import Pay from '@/pages/Pay';
 //创建一个路由实例
 //配置路由,向外暴露路由数组
 export default [
+    {
+        path: '/pay',
+        name: 'pay',
+        component: Pay,
+        meta: { showFooter: true }
+    },
     {
         path: '/trade',
         name: 'trade',

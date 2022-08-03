@@ -103,7 +103,7 @@
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay">提交订单</router-link>
+      <a class="subBtn" @click="submitOrder">提交订单</a>
     </div>
   </div>
 </template>
@@ -145,6 +145,24 @@ export default {
       });
       // 再给点击的赋值
       address.isDefault = "1";
+    },
+    // 提交订单
+    async submitOrder() {
+      // 交易编码
+      let tradeNo = this.orderInfo.tradeNo;
+      // 其他信息，选中的地址和用户信息等
+      let data = {
+        consignee: this.userCheckedAddress.consignee, // 选中的收件人名
+        consigneeTel: this.userCheckedAddress.phoneNum, // 选中的收件人电话号
+        deliveryAddress: this.userCheckedAddress.userAddress, // 选中的收件人地址
+        paymentWay: "ONLINE",
+        orderComment: this.msg, // 留言信息
+        orderDetailList: this.orderInfo.detailArrayList, // 订单信息
+      };
+      // 通过全局API调用请求函数
+      // trade:交易编码，data：数据信息
+      let result = await this.$API.reqSubmitOrder(tradeNo, data);
+      console.log(result);
     },
   },
 };

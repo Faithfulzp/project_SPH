@@ -45,6 +45,8 @@ export const reqLogout = () => requests({ url: "/user/passport/logout", method: 
 export const reqAddressInfo = () => requests({ url: "/user/userAddress/auth/findUserAddressList", method: "GET" });
 // 获取订单交易信息 /api/order/auth/trade get
 export const reqOrderInfo = () => requests({ url: "/order/auth/trade", method: "GET" });
+// 提交订单信息 /api/order/auth/submitOrder?tradeNo={tradeNo}  post tradeNo:用户表示，data：其他信息
+export const reqSubmitOrder = (tradeNo, data) => requests({ url: `/order/auth/submitOrder?tradeNo=${tradeNo}`, method: "post", data });
 
 
 

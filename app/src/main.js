@@ -18,6 +18,9 @@ import router from '@/router';
 //引入路由
 import store from '@/store';
 
+//全局引入API接口
+import * as API from "@/api";
+
 Vue.config.productionTip = false;
 
 //引入MockServer.js----mock数据
@@ -25,12 +28,17 @@ import '@/mock/mockServe';
 
 //引入swiper样式
 import 'swiper/css/swiper.css';
+
 // 引入阿里巴巴图标库样式
 import '../public/font/iconfont.css'
+
 new Vue({
   render: h => h(App),
   beforeCreate() {
+    // 全局事件总线
     Vue.prototype.$bus = this;
+    // 在Vue原型上绑定API的接口，全局可用
+    Vue.prototype.$API = API;
   },
   //注册路由
   router,
