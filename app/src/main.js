@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-
+// 按需引入element-ui
+import { Button, MessageBox } from 'element-ui';
 // 三级联动组件 ---全局组件
 import TypeNav from '@/components/TypeNav';
 //轮播图
@@ -11,7 +12,11 @@ import Pagination from '@/components/Pagination';
 Vue.component(TypeNav.name, TypeNav);
 Vue.component(Carousel.name, Carousel);
 Vue.component(Pagination.name, Pagination);
-
+// 注册element-ui的第一种方法：注册为全局组件
+Vue.component(Button.name, Button);
+// 注册element-ui的第二种方法:挂在原型上
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
 //引入路由
 import router from '@/router';
 

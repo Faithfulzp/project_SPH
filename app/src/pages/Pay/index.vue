@@ -74,7 +74,7 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <router-link class="btn" to="/paysuccess">立即支付</router-link>
+          <a class="btn" @click="open">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -91,12 +91,16 @@
 </template>
 
 <script>
+// 生成二维码的依赖
+import QRCode from "qrcode";
 export default {
   name: "Pay",
   data() {
     return {
       // 存储支付信息
-      payInfo: {},
+      payInfo: {}, //支付信息
+      timer: null, // 定时器
+      code: "", // 支付状态
     };
   },
   mounted() {
@@ -117,6 +121,48 @@ export default {
         this.payInfo = result.data;
       } else {
         alert(result.message);
+      }
+    },
+    // 支付弹窗el
+    async open() {
+      // 生成二维码,需要传参，参数是订单信息里的
+      let url = await QRCode.toDataURL(this.payInfo.codeUrl);
+      // 弹出框
+      this.$alert(`<img src="${url}" />`, "请用微信支付", {
+        // 将 message 属性作为 HTML 片段处理
+        dangerouslyUseHTMLString: true,
+        // 中间布局
+        center: true,
+        // 右上角关闭按钮
+        showClose: false,
+        // 显示取消按钮
+        showCancelButton: true,
+        // 取消按钮的文本内容
+        cancelButtonText: "支付遇见问题",
+        // 确认按钮的文本内容
+        confirmButtonText: "已支付成功",
+      });
+      // 判断支付是否成功
+      // 需要一直发请求问服务器支付是否成功
+      // 查看定时器是否开启，如果没开，则开启定时器间断发送请求询问服务器支付是否成功，如果成功则会返回200
+      if (!this.timer) {
+        this.timer = setInterval(async () => {
+          let result = await this.$API.reqPayStatus(this.payInfo.orderId);
+          if (result.code == 200) {
+            // 支付成功清除定时器
+            clearInterval(this.timer);
+            this.timer = null;
+            // 保存支付状态，检验没有支付成功也跳转到成功页面
+            this.code = result.code;
+            // 关闭支付弹窗
+            this.$msgbox.close();
+            // 支付成功后跳转到支付成功界面
+            this.$router.push({
+              name: "paysuccess",
+            });
+          }
+        }, 1000);
+      } else {
       }
     },
   },
