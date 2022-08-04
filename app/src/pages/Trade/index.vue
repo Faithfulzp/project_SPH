@@ -114,7 +114,8 @@ export default {
   name: "Trade",
   data() {
     return {
-      msg: "",
+      msg: "", // 留言信息
+      orderId: "", // 订单号
     };
   },
   mounted() {
@@ -162,7 +163,18 @@ export default {
       // 通过全局API调用请求函数
       // trade:交易编码，data：数据信息
       let result = await this.$API.reqSubmitOrder(tradeNo, data);
-      console.log(result);
+      if (result.code == 200) {
+        this.orderId = result.data;
+        this.$router.push({
+          name: "pay",
+          // query参数的格式一定要写成对象形式才能显示在url上
+          query: {
+            orderId: this.orderId,
+          },
+        });
+      } else {
+        alert(result.message);
+      }
     },
   },
 };

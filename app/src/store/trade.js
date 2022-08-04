@@ -7,7 +7,6 @@ export default {
         // 获取用户地址信息
         async getAddressInfo(context) {
             let result = await reqAddressInfo();
-            console.log(result);
             if (result.code == 200) {
                 context.commit('GETADDRESSINFO', result.data);
             }
@@ -15,7 +14,6 @@ export default {
         // 获取订单交易信息
         async getOrderInfo(context) {
             let result = await reqOrderInfo();
-            console.log(result);
             if (result.code == 200) {
                 context.commit('GETORDERINFO', result.data);
             }
