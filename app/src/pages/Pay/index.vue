@@ -154,17 +154,18 @@ export default {
             // 关闭弹窗
             done();
           } else {
-            if (this.code == 200) {
-              // 清除定时器
-              clearInterval(this.timer);
-              this.timer = null;
-              // 关闭弹窗
-              done();
-              // 路由跳转到支付成功界面
-              this.$router.push({
-                name: "paysuccess",
-              });
-            }
+            // 开发人员测试先不支付
+            // if (this.code == 200) {
+            // 清除定时器
+            clearInterval(this.timer);
+            this.timer = null;
+            // 关闭弹窗
+            done();
+            // 路由跳转到支付成功界面
+            this.$router.push({
+              name: "paysuccess",
+            });
+            // }
           }
         },
       });

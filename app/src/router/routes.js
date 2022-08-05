@@ -1,4 +1,4 @@
-//引入路由插件
+//引入一级路由插件
 import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
@@ -9,9 +9,35 @@ import ShopCart from '@/pages/ShopCart';
 import Trade from '@/pages/Trade';
 import Pay from '@/pages/Pay';
 import PaySuccess from '@/pages/PaySuccess';
+import Center from '@/pages/Center';
+//引入二级路由插件
+import MyOrder from '@/pages/Center/MyOrder';
+import GroupOrder from '@/pages/Center/GroupOrder';
+
 //创建一个路由实例
 //配置路由,向外暴露路由数组
 export default [
+    {
+        path: '/center',
+        name: 'center',
+        component: Center,
+        meta: { showFooter: true },
+        children: [
+            {
+                path: 'myorder',
+                component: MyOrder,
+            },
+            {
+                path: 'grouporder',
+                component: GroupOrder,
+            },
+            {
+                // 进入path时，默认跳到redirect
+                path: '/center',
+                redirect: '/center/myorder',
+            },
+        ]
+    },
     {
         path: '/paysuccess',
         name: 'paysuccess',
