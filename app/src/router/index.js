@@ -78,8 +78,16 @@ router.beforeEach(async (to, from, next) => {
             }
         }
     } else {
-        // 如果一开始就没有登录，则以游客身份，都可放行
-        next();
+        // 没登录，游客身份不可去的组件【trade交易页面，pay/paysuccess支付页面，center订单中心页面】
+        let toPath = to.path;
+        // 如果去的是这些页面
+        if (toPath.indexOf("/trade") != -1 || toPath.indexOf("/pay") != -1 || toPath.indexOf("/center") != -1) {
+            // 则跳转到登录界面，并携带一个query参数，但登陆之后，会自动跳到想去的那个页面
+            next("/login?rediect=" + toPath);
+        } else {
+            // 如果去的不是以上页面，则都放行
+            next();
+        }
     }
 })
 

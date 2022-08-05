@@ -42,19 +42,44 @@ export default [
         path: '/paysuccess',
         name: 'paysuccess',
         component: PaySuccess,
-        meta: { showFooter: true }
+        meta: { showFooter: true },
+        // 路由独享守卫，进入路由前判断
+        beforeEnter: (to, from, next) => {
+            // 支付成功必须从pay路由才能来
+            if (from.path == "/pay") {
+                next();
+            } else {
+                next(false);
+            }
+        }
     },
     {
         path: '/pay',
         name: 'pay',
         component: Pay,
-        meta: { showFooter: true }
+        meta: { showFooter: true },
+        beforeEnter: (to, from, next) => {
+            // 支付页面必须从trade订单页面来
+            if (from.path == "/trade") {
+                next();
+            } else {
+                next(false);
+            }
+        }
     },
     {
         path: '/trade',
         name: 'trade',
         component: Trade,
-        meta: { showFooter: true }
+        meta: { showFooter: true },
+        beforeEnter: (to, from, next) => {
+            // 订单交易页面必须从shopcart购物车路由来
+            if (from.path == "/shopcart") {
+                next();
+            } else {
+                next(false);
+            }
+        }
     },
     {
         path: '/shopcart',

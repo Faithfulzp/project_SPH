@@ -17,7 +17,7 @@
           </p>
         </div>
         <div class="typeList">
-          <a href="###">我的订单</a>
+          <router-link to="/center">我的订单</router-link>
           <a href="###">我的购物车</a>
           <a href="###">我的尚品汇</a>
           <a href="###">尚品汇会员</a>
@@ -95,16 +95,16 @@ export default {
       }
     },
     // 退出登录
-    async logout(){
-      try{
+    async logout() {
+      try {
         // 发送退出登录请求，会把服务器里的token等数据删除
         await this.$store.dispatch("user/userLogout");
         // 并以游客身份跳转到主页
         this.$router.push("/home");
-      }catch(error){
+      } catch (error) {
         alert(error.message);
       }
-    }
+    },
   },
   computed: {
     // 获取用户信息

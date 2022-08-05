@@ -94,7 +94,9 @@ export default {
             phone: this.phone,
             password: this.password,
           });
-          this.$router.push("/home");
+          // 在路由中添加了query参数，如果有query参数，则登录后要调到该页面，如果没有则默认调到home页面
+          let toPath = this.$route.query.rediect || "/home";
+          this.$router.push(toPath);
         } catch (error) {
           alert(error.message);
         }
