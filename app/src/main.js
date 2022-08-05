@@ -35,7 +35,21 @@ import '@/mock/mockServe';
 import 'swiper/css/swiper.css';
 
 // 引入阿里巴巴图标库样式
-import '../public/font/iconfont.css'
+import '../public/font/iconfont.css';
+
+// 引入图片懒加载插件
+import VueLazyload from 'vue-lazyload';
+import lm from "@/assets/images/cat.gif";// 懒加载的图片
+// 使用图片懒加载插件,可以把:src替换成v-lazy,既可以动态显示图片，当图片加载慢时，显示设置的图片
+Vue.use(VueLazyload, {
+  loading: lm,// 设置图片
+})
+
+// 使用自定义插件
+import myPlugins from './plugins/myPlugins';
+Vue.use(myPlugins, {
+  name: "upper",
+})
 
 new Vue({
   render: h => h(App),
