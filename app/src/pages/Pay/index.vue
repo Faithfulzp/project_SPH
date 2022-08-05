@@ -141,6 +141,32 @@ export default {
         cancelButtonText: "支付遇见问题",
         // 确认按钮的文本内容
         confirmButtonText: "已支付成功",
+        // 关闭之前进行的回调
+        beforeClose: (type, instance, done) => {
+          // type:区分取消|确定按钮
+          // instance:当前组件实例
+          // done:关闭弹出框
+          if (type == "cancel") {
+            alert("请联系管理员");
+            // 清除定时器
+            clearInterval(this.timer);
+            this.timer = null;
+            // 关闭弹窗
+            done();
+          } else {
+            if (this.code == 200) {
+              // 清除定时器
+              clearInterval(this.timer);
+              this.timer = null;
+              // 关闭弹窗
+              done();
+              // 路由跳转到支付成功界面
+              this.$router.push({
+                name: "paysuccess",
+              });
+            }
+          }
+        },
       });
       // 判断支付是否成功
       // 需要一直发请求问服务器支付是否成功
