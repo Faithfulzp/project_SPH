@@ -51,6 +51,9 @@ Vue.use(myPlugins, {
   name: "upper",
 })
 
+// 引入表单验证插件Vee-Validate
+import "@/plugins/validate";
+
 new Vue({
   render: h => h(App),
   beforeCreate() {
